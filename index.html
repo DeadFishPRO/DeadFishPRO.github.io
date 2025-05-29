@@ -3,10 +3,62 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Творчество, ага</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background: #000;
+        height: 100%;
+        width: 100%;
+        touch-action: none;
+      }
+
+      #unity-container {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      canvas {
+        width: 100%;
+        height: 100%;
+        max-width: 100vw;
+        max-height: 100vh;
+      }
+
+      /* Мобильное устройство в портретной ориентации */
+      @media screen and (orientation:portrait) and (max-width: 768px) {
+        body::before {
+          content: "Пожалуйста, поверните устройство в горизонтальный режим";
+          position: fixed;
+          top: 0; left: 0;
+          width: 100vw;
+          height: 100vh;
+          background: black;
+          color: white;
+          font-size: 20px;
+          z-index: 9999;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          padding: 2rem;
+        }
+
+        #unity-container {
+          display: none;
+        }
+      }
+    </style>
   </head>
   <body class="dark">
     <div id="unity-container" class="unity-desktop">
@@ -44,25 +96,26 @@
       const fullscreenButton = document.querySelector("#unity-fullscreen-button");
       const spinner = document.querySelector('.spinner');
 
-      const canFullscreen = (function() {
+      const canFullscreen = (function () {
         for (const key of [
-            'exitFullscreen',
-            'webkitExitFullscreen',
-            'webkitCancelFullScreen',
-            'mozCancelFullScreen',
-            'msExitFullscreen',
-          ]) {
+          'exitFullscreen',
+          'webkitExitFullscreen',
+          'webkitCancelFullScreen',
+          'mozCancelFullScreen',
+          'msExitFullscreen',
+        ]) {
           if (key in document) {
             return true;
           }
         }
         return false;
-      }());
+      })();
 
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         container.className = "unity-mobile";
         config.devicePixelRatio = 1;
       }
+
       loadingCover.style.display = "";
 
       const script = document.createElement("script");

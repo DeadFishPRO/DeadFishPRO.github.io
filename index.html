@@ -12,15 +12,16 @@
         margin: 0;
         padding: 0;
         overflow: hidden;
-        background: #000;
         height: 100%;
         width: 100%;
         touch-action: none;
+        background: black;
       }
 
       #unity-container {
-        position: fixed;
-        top: 0; left: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 100vw;
         height: 100vh;
         display: flex;
@@ -29,16 +30,16 @@
       }
 
       canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
-        max-width: 100vw;
-        max-height: 100vh;
       }
 
-      /* Мобильное устройство в портретной ориентации */
       @media screen and (orientation:portrait) and (max-width: 768px) {
         body::before {
-          content: "Пожалуйста, поверните устройство в горизонтальный режим 🙂";
+          content: "Пожалуйста, поверните устройство в горизонтальный режим🙂";
           position: fixed;
           top: 0; left: 0;
           width: 100vw;
@@ -117,6 +118,25 @@
       }
 
       loadingCover.style.display = "";
+
+      // Подгонка canvas под видимую область окна
+      function resizeCanvasToFit() {
+        const height = window.innerHeight;
+        const width = window.innerWidth;
+
+        canvas.style.width = width + "px";
+        canvas.style.height = height + "px";
+
+        container.style.width = width + "px";
+        container.style.height = height + "px";
+      }
+
+      window.addEventListener("resize", resizeCanvasToFit);
+      window.addEventListener("orientationchange", () => {
+        setTimeout(resizeCanvasToFit, 500);
+      });
+
+      resizeCanvasToFit();
 
       const script = document.createElement("script");
       script.src = loaderUrl;

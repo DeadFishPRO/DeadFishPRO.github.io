@@ -3,63 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Творчество, ага</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>PortfolioNew</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
-    <style>
-      html, body {
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        height: 100%;
-        width: 100%;
-        touch-action: none;
-        background: black;
-      }
-
-      #unity-container {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      canvas {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-      }
-
-      @media screen and (orientation:portrait) and (max-width: 768px) {
-        body::before {
-          content: "Пожалуйста, поверните устройство в горизонтальный режим🙂";
-          position: fixed;
-          top: 0; left: 0;
-          width: 100vw;
-          height: 100vh;
-          background: black;
-          color: white;
-          font-size: 20px;
-          z-index: 9999;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          text-align: center;
-          padding: 2rem;
-        }
-
-        #unity-container {
-          display: none;
-        }
-      }
-    </style>
   </head>
   <body class="dark">
     <div id="unity-container" class="unity-desktop">
@@ -78,15 +25,15 @@
     <script>
       const hideFullScreenButton = "1";
       const buildUrl = "Build";
-      const loaderUrl = buildUrl + "/FolioBuild.loader.js";
+      const loaderUrl = buildUrl + "/PortfolioNewBuild.loader.js";
       const config = {
-        dataUrl: buildUrl + "/FolioBuild.data",
-        frameworkUrl: buildUrl + "/FolioBuild.framework.js",
-        codeUrl: buildUrl + "/FolioBuild.wasm",
+        dataUrl: buildUrl + "/PortfolioNewBuild.data.br",
+        frameworkUrl: buildUrl + "/PortfolioNewBuild.framework.js.br",
+        codeUrl: buildUrl + "/PortfolioNewBuild.wasm.br",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
-        productName: "Творчество, ага",
-        productVersion: "0.1",
+        productName: "PortfolioNew",
+        productVersion: "0.1.0",
       };
 
       const container = document.querySelector("#unity-container");
@@ -97,46 +44,26 @@
       const fullscreenButton = document.querySelector("#unity-fullscreen-button");
       const spinner = document.querySelector('.spinner');
 
-      const canFullscreen = (function () {
+      const canFullscreen = (function() {
         for (const key of [
-          'exitFullscreen',
-          'webkitExitFullscreen',
-          'webkitCancelFullScreen',
-          'mozCancelFullScreen',
-          'msExitFullscreen',
-        ]) {
+            'exitFullscreen',
+            'webkitExitFullscreen',
+            'webkitCancelFullScreen',
+            'mozCancelFullScreen',
+            'msExitFullscreen',
+          ]) {
           if (key in document) {
             return true;
           }
         }
         return false;
-      })();
+      }());
 
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         container.className = "unity-mobile";
         config.devicePixelRatio = 1;
       }
-
       loadingCover.style.display = "";
-
-      // Подгонка canvas под видимую область окна
-      function resizeCanvasToFit() {
-        const height = window.innerHeight;
-        const width = window.innerWidth;
-
-        canvas.style.width = width + "px";
-        canvas.style.height = height + "px";
-
-        container.style.width = width + "px";
-        container.style.height = height + "px";
-      }
-
-      window.addEventListener("resize", resizeCanvasToFit);
-      window.addEventListener("orientationchange", () => {
-        setTimeout(resizeCanvasToFit, 500);
-      });
-
-      resizeCanvasToFit();
 
       const script = document.createElement("script");
       script.src = loaderUrl;
